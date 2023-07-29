@@ -1,24 +1,29 @@
-import logo from './logo.svg';
+import Users from './components/Users';
+import { getUserItems } from './store/users/userSlice';
 import './App.css';
+import { useDispatch, useSelector } from 'react-redux';
+import { useEffect } from 'react';
+
 
 function App() {
+  const { userItems , isLoading } = useSelector((store) => store.users);
+  console.log(userItems);
+  const dispath = useDispatch();
+
+  useEffect(() => {
+    dispath(getUserItems());
+  });
+
+  if (isLoading) {
+    return (
+      <div className='loading'>
+        <h1>Loading...</h1>
+      </div>
+    )
+  }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Users />
   );
 }
 
